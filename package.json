@@ -1,0 +1,17 @@
+{
+  "name": "mern-stack-tutorial",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "keywords": [],
+  "author": "adrguibar",
+  "license": "ISC",
+  "description": "api for SPA breaking news",
+  "dependencies": {
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9"
+  }
+}
