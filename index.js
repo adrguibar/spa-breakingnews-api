@@ -15,6 +15,6 @@ connectDatabase();
 app.use(express.json());
 app.use("/user", userRouter);
 app.use("/auth", authRouter);
-app.use("news", newsRouter);
+app.use("/news", newsRouter);
 
 app.listen(port, () => console.log(`Servidor rodando na porta ${port}`));
