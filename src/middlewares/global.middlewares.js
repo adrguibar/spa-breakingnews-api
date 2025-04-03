@@ -33,3 +33,18 @@ export const validUser = async (req, res, next) => {
   }
 };
 
+export const validNews = async (req, res, next) => {
+  try {
+    const { title, text, banner } = req.body;
+
+    if (!title || !text || !banner) {
+      return res
+        .status(400)
+        .send({ message: "Missing fields required for creating news." });
+    }
+
+    next();
+  } catch (err) {
+    res.status(500).send({ message: "Error validating News: " + err.message });
+  }
+};

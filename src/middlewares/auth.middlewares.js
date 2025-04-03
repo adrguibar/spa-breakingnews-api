@@ -32,11 +32,11 @@ export const authMiddleware = (req, res, next) => {
         }
             console.log(decoded);
             
-            req.userId = decoded.id;
+            req.userId = user.id;
             next();
         });
     } catch (err) {
         console.log(err).send({message: error.message});
-        return res.status(500);
+        return res.status(500).send({message: "Error authenticating user:" + err.message});
     }
 }
