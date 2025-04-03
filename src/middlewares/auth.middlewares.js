@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import userService from '../services/user.service.js';
 
 dotenv.config();
 
@@ -18,15 +19,20 @@ export const authMiddleware = (req, res, next) => {
             return res.sendStatus(401);
         }
 
-        jwt.verify(token, process.env.SECRET_JWT, (error, decoded) => {
+        jwt.verify(token, process.env.SECRET_JWT, async (error, decoded) => {
             if (error) {
                 console.log(error);
                 return res.status(401).send({message: "Error validating token."});
             }
+
+        const user = await userService.findByIdService(decoded.id);
+
+        if(! user || !user.id){
+            return res.status(401).send({message: "Invalid token"});
+        }
             console.log(decoded);
             
-            //id do usuario
-            req.params.id = decoded.id;
+            req.userId = decoded.id;
             next();
         });
     } catch (err) {
