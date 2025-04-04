@@ -43,3 +43,19 @@ export const likeNewsService = async (id, userId) => {
 export const unlikeNewsService = async (id, userId) => {
   return News.findOneAndUpdate({ _id: id }, { $pull: { likes: { userId } } });
 };
+
+export const addCommentService = async (idNews, userId, comment) => {
+  const idComment = Math.floor(Date.now() * Math.random()).toString(36);
+
+  return News.findOneAndUpdate(
+    { _id: idNews },
+    { $push: {comments: { idComment, userId, comment, createdAt: new Date() }} }
+  );
+};
+
+export const deleteCommentService = async (idNews, idComment, userId) => {
+    return News.findOneAndUpdate(
+      { _id: idNews },
+      { $pull: { comments: { idComment, userId } } }
+    );
+}

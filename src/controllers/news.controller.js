@@ -10,6 +10,8 @@ import {
   eraseService,
   likeNewsService,
   unlikeNewsService,
+  addCommentService,
+  deleteCommentService,
 } from "../services/news.service.js";
 
 export const create = async (req, res) => {
@@ -261,5 +263,53 @@ export const likeNews = async (req, res) => {
     return res
       .status(500)
       .send({ message: "Error liking news: " + err.message });
+  }
+};
+
+export const addComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { comment } = req.body;
+    const userId = req.userId;
+
+    if (!comment) {
+      return res.status(400).send({ message: "Please, submit a comment" });
+    }
+
+    await addCommentService(id, userId, comment);
+
+    return res.status(200).send({ message: "Comment added!" });
+  } catch (err) {
+    return res
+      .status(500)
+      .send({ message: "Error adding comment: " + err.message });
+  }
+};
+
+export const deleteComment = async (req, res) => {
+  try {
+    const { idNews, idComment } = req.params;
+    const userId = req.userId;
+
+    const deletedComment = await deleteCommentService(idNews, idComment, userId);
+
+    const commentFinder = deletedComment.comments.find(
+        comment => comment.idComment === idComment
+    );
+    
+    if (!commentFinder) {
+        return res.status(400).send({message: "Comment not found"});
+    }
+
+    if (commentFinder && commentFinder.userId !== userId) {
+        return res.status(400).send({message: "You can't delete this comment"});
+    }
+
+    return res.status(200).send({ message: "Comment deleted!" });
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(500)
+      .send({ message: "Error deleting comment: " + err.message });
   }
 };
