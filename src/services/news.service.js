@@ -23,8 +23,23 @@ export const findByUserIdService = async (userId) =>
   News.find({ user: userId }).sort({ _id: -1 }).populate("user");
 
 export const updateService = async (id, title, text, banner) =>
-  News.findOneAndUpdate({ _id: id }, { title, text, banner }, { rawResult: true });
+  News.findOneAndUpdate(
+    { _id: id },
+    { title, text, banner },
+    { rawResult: true }
+  );
 
 export const eraseService = async (id) => {
-    News.findOneAndDelete({ _id: id })
+  return News.findByIdAndDelete(id);
+};
+
+export const likeNewsService = async (id, userId) => {
+  return News.findOneAndUpdate(
+    { _id: id, "likes.userId": { $nin: [userId] } },
+    { $push: { likes: { userId, createdAt: new Date() } } }
+  );
+};
+
+export const unlikeNewsService = async (id, userId) => {
+  return News.findOneAndUpdate({ _id: id }, { $pull: { likes: { userId } } });
 };

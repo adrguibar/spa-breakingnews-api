@@ -8,6 +8,8 @@ import {
   findByUserIdService,
   updateService,
   eraseService,
+  likeNewsService,
+  unlikeNewsService,
 } from "../services/news.service.js";
 
 export const create = async (req, res) => {
@@ -112,9 +114,7 @@ export const topNews = async (req, res) => {
 export const findById = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const news = await findByIdService(id);
-    console.log(news);
     return res.status(200).send({
       news: {
         id: news._id,
@@ -224,7 +224,6 @@ export const update = async (req, res) => {
 export const erase = async (req, res) => {
   try {
     const { id } = req.params;
-
     const news = await findByIdService(id);
 
     if (String(news.user._id) !== req.userId) {
@@ -241,5 +240,26 @@ export const erase = async (req, res) => {
     return res
       .status(500)
       .send({ message: "Error deleting news: " + err.message });
+  }
+};
+
+export const likeNews = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.userId;
+
+    const newsLiked = await likeNewsService(id, userId);
+
+    if (!newsLiked) {
+      await unlikeNewsService(id, userId);
+      return res.status(200).send({ message: "News disliked" });
+    }
+
+    return res.status(200).send({ message: "News liked" });
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(500)
+      .send({ message: "Error liking news: " + err.message });
   }
 };
