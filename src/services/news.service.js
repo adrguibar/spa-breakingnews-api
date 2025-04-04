@@ -24,3 +24,7 @@ export const findByUserIdService = async (userId) =>
 
 export const updateService = async (id, title, text, banner) =>
   News.findOneAndUpdate({ _id: id }, { title, text, banner }, { rawResult: true });
+
+export const eraseService = async (id) => {
+    News.findOneAndDelete({ _id: id })
+};
