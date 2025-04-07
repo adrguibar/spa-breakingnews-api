@@ -10,7 +10,7 @@
     },
     "servers": [
       {
-        "url": "https://api-breakingnews.onrender.com",
+        "url": "https://mern-stack-tutorial-9msi.onrender.com",
         "description": "Render"
       },
   
