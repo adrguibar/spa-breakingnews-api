@@ -10,7 +10,7 @@
     },
     "servers": [
       {
-        "url": "https://mern-stack-tutorial-9msi.onrender.com",
+        "url": "https://mern-stack-tutorial-9msi.onrender.com/doc/",
         "description": "Render"
       },
   
