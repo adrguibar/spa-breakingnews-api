@@ -1,5 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from "cors";
+
 import connectDatabase from './database/db.js';
 
 import userRouter from './routes/user.route.js';
@@ -13,6 +15,7 @@ const app = express();
 const port = 3000
 
 connectDatabase();
+app.use(cors({"origin":"*"}));
 app.use(express.json());
 app.use("/user", userRouter);
 app.use("/auth", authRouter);
