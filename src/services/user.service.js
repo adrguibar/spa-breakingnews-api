@@ -61,6 +61,7 @@ async function findUserByIdService(userIdParam, userIdLogged) {
   return user;
 }
 
+
 async function updateUserService(userId, body) {
   const { name, username, email, password, avatar, background } = body;
 
