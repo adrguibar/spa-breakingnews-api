@@ -32,6 +32,6 @@ const PostSchema = new mongoose.Schema({
   },
 });
 
-const Post = mongoose.model("Post", PostSchema);
+const Post = mongoose.model("News", PostSchema);
 
 export default Post;
